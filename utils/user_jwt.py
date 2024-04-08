@@ -3,10 +3,11 @@ from typing import Optional
 from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from config.settings import get_config
 
-SECRET_KEY = "3Zy8KtZxmL5iX6Uk"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 1440
+SECRET_KEY = get_config()['jwt']['SECRET_KEY']
+ALGORITHM = get_config()['jwt']['ALGORITHM']
+ACCESS_TOKEN_EXPIRE_MINUTES = int(get_config()['jwt']['ACCESS_TOKEN_EXPIRE_MINUTES'])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 

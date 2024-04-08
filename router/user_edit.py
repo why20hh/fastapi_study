@@ -9,14 +9,14 @@ edit_user_router = APIRouter(prefix='/user', tags=['用户管理'])
 
 
 @edit_user_router.post("/create_user", summary='添加用户')
-def create_new_user(user_data: UserCreate):
+async def create_new_user(user_data: UserCreate):
     db = get_db_session()
     user = create_user(db, user_data)
     return user
 
 
 @edit_user_router.get("/{get_user_name}", summary='查询用户')
-def read_user(get_user_name: str, current_user: dict = Depends(get_current_user)):
+async def read_user(get_user_name: str, current_user: dict = Depends(get_current_user)):
     db = get_db_session()
     user = get_user(db, get_user_name)
     if user is None:
@@ -25,7 +25,7 @@ def read_user(get_user_name: str, current_user: dict = Depends(get_current_user)
 
 
 @edit_user_router.put("/{get_user_name}", summary='修改用户')
-def update_existing_user(get_user_name: str, user_data: UserUpdate, current_user: dict = Depends(get_current_user)):
+async def update_existing_user(get_user_name: str, user_data: UserUpdate, current_user: dict = Depends(get_current_user)):
     db = get_db_session()
     user = get_user(db, get_user_name)
     if user is None:
@@ -35,7 +35,7 @@ def update_existing_user(get_user_name: str, user_data: UserUpdate, current_user
 
 
 @edit_user_router.delete("/{get_user_name}", response_model=ResponseModel, summary='删除')
-def delete_existing_user(get_user_name: str, current_user: dict = Depends(get_current_user)):
+async def delete_existing_user(get_user_name: str, current_user: dict = Depends(get_current_user)):
     db = get_db_session()
     user = get_user(db, get_user_name)
     if user is None:
