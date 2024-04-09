@@ -18,15 +18,3 @@ class UserInfo(BaseModel):
     email: str
     name: str
     password: str
-
-
-class UserCreate(BaseModel):
-    email: str
-    name: str
-    password: str
-
-
-class UserUpdate(BaseModel):
-    email: str
-    name: str
-    password: str

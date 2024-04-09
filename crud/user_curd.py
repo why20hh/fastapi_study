@@ -1,12 +1,11 @@
 import datetime
 from sqlalchemy.orm import Session
-from models.user_models import User, UserCreate, UserUpdate
+from models.user_models import User, UserInfo
 import bcrypt
 
 
 def authenticate_user(username: str, password: str, db: Session):
     user = get_user(db, username)
-    print(user.user_name, user.user_password)
     if not user:
         return False  # 用户不存在
     if not bcrypt.checkpw(password.encode('utf-8'), user.user_password.encode('utf-8')):
@@ -18,7 +17,7 @@ def get_user(db: Session, get_user_name: str):
     return db.query(User).filter(User.user_name == get_user_name).first()
 
 
-def create_user(db: Session, user_data: UserCreate):
+def create_user(db: Session, user_data: UserInfo):
     existing_user = get_user(db, user_data.name)
     if existing_user:
         return {"message": "User already exists with this username"}
@@ -30,7 +29,7 @@ def create_user(db: Session, user_data: UserCreate):
     return user
 
 
-def update_user(db: Session, user: User, user_data: UserUpdate):
+def update_user(db: Session, user: User, user_data: UserInfo):
     # 检查用户名是否已存在，排除当前用户
     existing_user = db.query(User).filter(User.user_name == user_data.name, User.id != user.id).first()
     if existing_user:
