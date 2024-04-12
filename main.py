@@ -9,19 +9,10 @@ from async_timeout import timeout
 
 app = FastAPI()
 
-
-# class TimeoutMiddleware(BaseHTTPMiddleware):
-#     async def dispatch(self, request, call_next):
-#         async with timeout(10):  # 设置超时时间为 10 秒
-#             response = await call_next(request)
-#         return response
-
-
 app.middleware("http")(log_request)
 app.include_router(login_router)
 app.include_router(edit_user_router)
 app.include_router(edit_vps_router)
-# app.add_middleware(TimeoutMiddleware)
 
 if __name__ == '__main__':
     import uvicorn
