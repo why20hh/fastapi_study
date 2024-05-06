@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Form, HTTPException, status
+from fastapi.responses import JSONResponse
 from utils.user_jwt import create_access_token
 from crud.user_curd import authenticate_user
 from common.mysql_connect import get_db_session
@@ -23,3 +24,23 @@ async def login(username: str = Form(...), password: str = Form(...)):
     # 在此处验证用户名和密码，生成访问令牌
     access_token = create_access_token(data=user_credentials)
     return {"access_token": access_token, "token_type": "bearer"}
+
+route_config = [
+    {
+        "path": "/dashboard",
+        "name": "Dashboard",
+        "component": "@/views/DashboardView.vue",
+        "icon": "<el-icon><DataBoard /></el-icon>"
+    },
+    {
+        "path": "/settings",
+        "name": "Settings",
+        "component": "@/views/SettingsView.vue",
+        "icon": "<el-icon><Setting /></el-icon>"
+    }
+]
+
+
+@login_router.get("/get_apis", summary="获取路由信息")
+async def get_apis():
+    return JSONResponse(content=route_config)
