@@ -15,7 +15,7 @@ def create_tables():
     inspector = inspect(connection)
     if not inspector.has_table("users"):  # 替换 "users" 为你要检查的表名
         Base.metadata.create_all(bind=engine)
-    if not inspector.has_table("vps"):  # 替换 "vps" 为你要检查的表名
+    if not inspector.has_table("vps"):
         Base.metadata.create_all(bind=engine)
     if not inspector.has_table("vps_buy_template"):  # 替换 "vps_buy_template" 为你要检查的表名
         Base.metadata.create_all(bind=engine)

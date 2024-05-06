@@ -30,11 +30,6 @@ def create_user(db: Session, user_data: UserInfo):
 
 
 def update_user(db: Session, user: User, user_data: UserInfo):
-    # 检查用户名是否已存在，排除当前用户
-    existing_user = db.query(User).filter(User.user_name == user_data.name, User.id != user.id).first()
-    if existing_user:
-        return "Another user already exists with this username"
-
     # 检查电子邮件是否已存在，排除当前用户
     existing_email = db.query(User).filter(User.user_email == user_data.email, User.id != user.id).first()
     if existing_email:
@@ -48,10 +43,7 @@ def update_user(db: Session, user: User, user_data: UserInfo):
         hashed_password = bcrypt.hashpw(user_data.password.encode('utf-8'), bcrypt.gensalt())
         user.user_password = hashed_password
 
-    # 更新用户邮箱和用户名
     user.user_email = user_data.email
-
-    # 更新最后修改时间
     user.last_modified_time = datetime.datetime.now()
 
     db.commit()
