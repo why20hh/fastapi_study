@@ -19,6 +19,8 @@ def create_tables():
         Base.metadata.create_all(bind=engine)
     if not inspector.has_table("vps_buy_template"):  # 替换 "vps_buy_template" 为你要检查的表名
         Base.metadata.create_all(bind=engine)
+    if not inspector.has_table("vps_goods_scanning"):
+        Base.metadata.create_all(bind=engine)
 
 
 def get_db_session():

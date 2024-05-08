@@ -6,6 +6,7 @@ from router.user_edit import edit_user_router
 from router.user_login import login_router
 from router.vps_edit import edit_vps_router
 from router.vps_buy import vps_buy_router
+from router.vps_goods_scanning_router import vps_scanning_router
 from async_timeout import timeout
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -30,6 +31,7 @@ app.include_router(login_router)
 app.include_router(edit_user_router)
 app.include_router(edit_vps_router)
 app.include_router(vps_buy_router)
+app.include_router(vps_scanning_router)
 # app.add_middleware(TimeoutMiddleware)
 
 if __name__ == '__main__':
