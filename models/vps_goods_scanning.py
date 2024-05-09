@@ -10,7 +10,7 @@ class VpsGoodsScanningModels(Base):
     vps_goods_description = Column(String(255))
     vps_price_monthly = Column(String(255), default=None)
     vps_price_quarterly = Column(Text(length=16777215))
-    vps_price_yearly = Column(String(255), default=None)
+    vps_price_annually = Column(String(255), default=None)
     vps_buy_link = Column(String(255), default=None)
     vps_service_name = Column(String(255), default=None)
     vps_data_created_time = Column(DATETIME, default=func.now())
