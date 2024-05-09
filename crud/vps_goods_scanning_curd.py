@@ -18,7 +18,7 @@ headers = {
 
 
 def scanning_goods(vps_goods_name_url):
-    response = requests.get(vps_goods_name_url, headers=headers, verify=False)
+    response = requests.get(vps_goods_name_url, headers=headers, verify=False, timeout=30)
     if response.status_code == 200:
         get_response_result = re.findall(r"document\.write\('([^']*)'\);?", response.text)
         if get_response_result:
@@ -40,7 +40,7 @@ def scanning_goods_curd(db: Session, scan_url: str, num_of_scan: int):
         vps_goods_name_result = scanning_goods(vps_goods_name_url)
         if vps_goods_name_result and vps_goods_name_result != 'Product ID Not Found':
             vps_goods_description_result = scanning_goods(
-                scan_url + f'/feeds/productsinfo.php?pid={i}&get=description').replace('\n', '').replace('<br />', '')
+                scan_url + f'/feeds/productsinfo.php?pid={i}&get=description')
             if vps_goods_description_result:
                 vps_goods_description_result = re.sub(r'<[^>]+>', '', vps_goods_description_result)
                 vps_goods_description_result = re.sub(r'&[a-zA-Z]+;', '', vps_goods_description_result)
