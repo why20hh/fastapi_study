@@ -26,6 +26,7 @@ class TaskManager:
         self.task_events[task_id] = asyncio.Event()
 
     def update_task_status(self, task_id, status):
+        print(self.tasks)
         if task_id in self.tasks:
             self.tasks[task_id]["status"] = status
             print(f"Task {task_id} status updated to {status}")

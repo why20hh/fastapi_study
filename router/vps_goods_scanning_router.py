@@ -8,6 +8,7 @@ from sqlalchemy import asc, delete
 from uuid import uuid4
 import asyncio
 from time import sleep
+from utils.middleware import logger
 
 vps_scanning_router = APIRouter(prefix='/vps_goods_scan/api', tags=['商品信息扫描'])
 task_manager = TaskManager()
@@ -26,7 +27,11 @@ async def scan_goods(background_tasks: BackgroundTasks, scan_url: str, num_of_sc
 
     async def scan_task():
         db = get_db_session()
-        await scanning_goods_curd(db, scan_url, num_of_scan)
+        try:
+            scanning_result = await scanning_goods_curd(db, scan_url, num_of_scan)
+            logger.info(scanning_result)
+        except Exception as e:
+            logger.info(f"An error occurred: {e}")
         task_manager.update_task_status(task_id, "completed")  # 完成时更新状态
         # 这里可以添加日志或其他处理逻辑，但通常不直接返回结果，因为它在后台运行
 

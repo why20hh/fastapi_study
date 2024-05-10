@@ -23,7 +23,7 @@ def scanning_goods(vps_goods_name_url):
         get_response_result = re.findall(r"document\.write\('([^']*)'\);?", response.text)
         if get_response_result:
             get_response_result = get_response_result[0]
-            print(get_response_result)
+            logger.info(get_response_result)
             return get_response_result
         else:
             print(response.text)
@@ -34,7 +34,7 @@ def scanning_goods(vps_goods_name_url):
         return False
 
 
-def scanning_goods_curd(db: Session, scan_url: str, num_of_scan: int):
+async def scanning_goods_curd(db: Session, scan_url: str, num_of_scan: int):
     for i in range(num_of_scan):
         vps_goods_name_url = scan_url + f'/feeds/productsinfo.php?pid={i}&get=name'
         vps_goods_name_result = scanning_goods(vps_goods_name_url)
@@ -82,3 +82,4 @@ def scanning_goods_curd(db: Session, scan_url: str, num_of_scan: int):
                     db.refresh(add_vps_goods_scan_data)
             else:
                 break
+    return {"status": "success", "message": "扫描成功"}
